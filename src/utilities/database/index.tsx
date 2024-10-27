@@ -3,7 +3,7 @@ import { SQLocalDrizzle } from 'sqlocal/drizzle';
 import { drizzle } from 'drizzle-orm/sqlite-proxy';
 import * as schema from './schemas';
 import { useFitnessStore } from '@store';
-// import { createTables } from './schemas/sql/createTables';
+import { createTables } from './schemas/sql/createTables';
 
 
 // Initialize SQLocalDrizzle and pass the driver to Drizzle
@@ -11,11 +11,11 @@ const { driver, sql } = new SQLocalDrizzle({
 	databasePath: 'database.sqlite3',
 	verbose: true,
 	onConnect: async () => {
-		// // Seed Database
-		// const data = await createTables(sql);
+		// Seed Database
+		const data = await createTables(sql);
 		// const result = await seedTables()
 
-		console.log("Sqlocal Connected! ")//, data)
+		console.log("Sqlocal Connected! ", data)
 	}
 });
 

@@ -39,11 +39,18 @@ const useDatabase = () => {
 
 	useEffect(() => {
 		if (database) {
-			setDb(database);
+			if (!db) setDb(database);
 
 			const schemas = Object.keys(schema);
-			
-			(async () => {
+
+			if (
+				database?.query
+				&& Object
+					.keys(database.query)
+					.every(key => [
+						'profile', 'exercise', 'food', 'weight', 'steps', 'sleep'
+					].includes(key))
+			) (async () => {
 				const initialData = await Promise.all(
 					schemas.map((table: string) => new Promise(
 						async (resolve) => {
@@ -63,7 +70,7 @@ const useDatabase = () => {
 			})();
 		};
 
-	}, [database]);
+	}, [database, database?.query]);
 
 	return db;
 };

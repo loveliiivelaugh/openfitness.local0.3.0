@@ -35,12 +35,12 @@ const App = () => {
 export default App;
 
 const Content = () => {
-  const database = useDatabase();
+  const databaseHook = useDatabase();
   const fitnessStore = useFitnessStore();
   const utilityStore = useUtilityStore();
   const sidebar = useSidebar();
   
-  console.log("Stores: ", sidebar, fitnessStore, utilityStore, fitnessStore, database);
+  console.log("Stores: ", sidebar, fitnessStore, utilityStore, fitnessStore, databaseHook);
 
   const filterSchema = (tableFilter: string, schema: any) => schema 
     && schema.find((item: { table: string }) => (item.table === tableFilter));

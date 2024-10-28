@@ -18,6 +18,8 @@ In combination with the features enabled by PWA's this app also use's a local sq
 
 How is that done? Read more 👉 [Sqlocal](https://sqlocal.dallashoffman.com/)
 
+All code lives in the front end. Local first. Data is stored on device. Supports offline use.
+
 ### Dev
 
 Further supporting documentation on this app's architecture

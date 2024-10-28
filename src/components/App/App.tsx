@@ -1,31 +1,34 @@
-import { useSidebar } from "@/components/ui/sidebar"
+import { useDatabase } from "@database";
+import { useFitnessStore, useUtilityStore } from "@store";
+import { SidebarProvider, useSidebar } from "@/components/ui/sidebar"
+import { SidebarTrigger } from "@/components/ui/sidebar"
+import { AppSidebar } from "@/components/custom/app-sidebar"
 import { Button } from "@/components/ui/button";
 import { Grid, GridItem } from "@/components/ui/grid";
-import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { 
+  Drawer, DrawerClose, DrawerContent, DrawerDescription, 
+  DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger 
+} from "@/components/ui/drawer";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { AppSidebar } from "@/components/custom/app-sidebar"
 import FormContainer from "@/components/framework/forms/FormContainer";
 import ChartsContainer from "@/components/framework/charts/ChartsContainer";
-import { useFitnessStore, useUtilityStore } from "@store";
-import { LocalDatabaseProvider, useDatabase } from "@database";
 import '../../utilities/styles/globals.css';
 import '../../globals.css';
+import './Dialog.styles.css'
 import './App.css';
+import { DialogTrigger } from "@radix-ui/react-dialog";
 
 
 const App = () => {
   return (
-    <LocalDatabaseProvider>
-      <SidebarProvider>
-        <AppSidebar
-          side="right"
-          variant="floating"
-        />
-        <Content />
-      </SidebarProvider>
-    </LocalDatabaseProvider>
+    <SidebarProvider>
+      <AppSidebar
+        side="right"
+        variant="floating"
+      />
+      <Content />
+    </SidebarProvider>
   );
 };
 
@@ -37,15 +40,26 @@ const Content = () => {
   const utilityStore = useUtilityStore();
   const sidebar = useSidebar();
   
-  console.log("Stores: ", fitnessStore, utilityStore, fitnessStore, database);
+  console.log("Stores: ", sidebar, fitnessStore, utilityStore, fitnessStore, database);
 
   const filterSchema = (tableFilter: string, schema: any) => schema 
     && schema.find((item: { table: string }) => (item.table === tableFilter));
 
   return (
-    <main className="content">
+    <main >
       <p>No user logged in</p>
-      <Button onClick={() => {}}>Sign in</Button>
+      {/* <button onClick={async () => {
+        console.log("Sending message~");
+        const response = await client.post("/aichat/postChat", {
+          id: "1",
+          message: {
+            sender: "user",
+            text: "Hello how are you?!",
+            model: "llama3.1:latest"
+          }
+        })
+        console.log("aichat.response: ", response)
+      }}>Send Message</button> */}
       <h1>Openfitness 3 (local) ♥️</h1>
       <h4>local first * pwa * mfe</h4>
       <h6>Rsbuild (Rust Webpack alternative) * Graphql & REST support * Bun JS runtime</h6>
@@ -53,6 +67,34 @@ const Content = () => {
       <p>Start by creating a profile.</p>
       <p>This data is important and required to track progress and make accurate suggestions according to the data provided.</p>
       <SidebarTrigger />
+      
+      <FormContainer schema={{
+          table: "Name",
+          columns: [
+            {
+              name: "name"
+            }
+          ]
+        }}
+      />
+
+      <h3>|</h3>
+      <h3>Birthday</h3>
+      <h3>|</h3>
+      <h3>Height</h3>
+      <h3>|</h3>
+      <h3>Weight</h3>
+      <h3>|</h3>
+      <h3>Gender</h3>
+      <h3>|</h3>
+      <h3>Activity level</h3>
+      <h3>|</h3>
+      <h3>Exercise frequency</h3>
+      <h3>|</h3>
+      <h2>Calculates: </h2>
+      <hr />
+      <h3>TDEE</h3>
+      <h3>BMR</h3>
 
       <Grid container>
         { // Gets all the data needed for all the charts and the ChartsContainer ...
@@ -70,32 +112,44 @@ const Content = () => {
       
       {/* Below handles side and bottom drawer -- incudes forms for all tables */}
       <Grid container>
-        <Button onClick={() => sidebar.setOpen(true)}>Button</Button>
-        <Sheet open>
+        <Button onClick={() => {}}>Button</Button>
+        <Sheet>
           <p>Sheet</p>
-          <SheetTrigger></SheetTrigger>
+          <SheetTrigger>Open Sheet</SheetTrigger>
           <SheetContent>
             {fitnessStore.fitnessTables.length && (
               <FormContainer schema={filterSchema("food", fitnessStore.fitnessTables)} />
             )}
           </SheetContent>
         </Sheet>
-        <Drawer open={true}>
+        <Drawer>
           <p>Drawer</p>
-          <DrawerTrigger></DrawerTrigger>
+          <DrawerTrigger>Open Drawer</DrawerTrigger>
           <DrawerContent>
+            <DrawerHeader>
+              <DrawerTitle>Are you absolutely sure?</DrawerTitle>
+              <DrawerDescription>This action cannot be undone.</DrawerDescription>
+            </DrawerHeader>
             {fitnessStore.fitnessTables.length && (
               <FormContainer schema={filterSchema("profile", fitnessStore.fitnessTables)} />
             )}
+            <DrawerFooter>
+              <Button>Submit</Button>
+              <DrawerClose>
+                <Button variant="outline">Cancel</Button>
+              </DrawerClose>
+            </DrawerFooter>
           </DrawerContent>
         </Drawer>
-        <Dialog open>
+        <Dialog>
+          <DialogTrigger>Open Launch</DialogTrigger>
           <DialogContent>
             <DialogHeader>
               <DialogTitle>
                 Modal
               </DialogTitle>
               <p>Dialog</p>
+              {console.log("in Dialog: ", fitnessStore)}
               {fitnessStore.fitnessTables.length && (
                 <FormContainer schema={filterSchema("weight", fitnessStore.fitnessTables)} />
               )}

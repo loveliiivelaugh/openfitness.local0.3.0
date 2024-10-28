@@ -16,7 +16,9 @@
 // 		});
 // })()
 
-export const createTables = async (sql: any) => await sql`
+export const createTables = async (sql: any) => {
+    console.log("createTables: ", sql)
+    return await sql`
 CREATE TABLE profile (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -90,3 +92,4 @@ CREATE TABLE weight (
     time TIME DEFAULT CURRENT_TIME
 )
 `;
+};

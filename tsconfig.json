@@ -8,8 +8,8 @@
             "@/lib/*": ["./src/lib/*"],
             "@/components": ["./src/components"],
             "@/lib": ["./src/lib"],
-            "@api": ["./src/utilities/api"],
-            "@graphql": ["./src/utilities/api/graphql"],
+            "@api": ["../framework/webpack-react-mf-app2/src/utilities/api.graphql/api.appTemplate"],
+            "@graphql": ["../framework/webpack-react-mf-app2/src/utilities/api.graphql/api.appTemplate/graphql"],
             "@database": ["./src/utilities/database"],
             "@store": ["./src/utilities/store"],
             "@scripts": ["./src/utilities/scripts"],
@@ -40,6 +40,6 @@
         "noFallthroughCasesInSwitch": true,
         "esModuleInterop": true
     },
-    "include": ["src/**/*", "src/index.ts"],
+    "include": ["src/**/*", "src/index.ts", "../framework/webpack-react-mf-app2/src/utilities/api.graphql/api.appTemplate"],
     "exclude": ["node_modules"]
 }

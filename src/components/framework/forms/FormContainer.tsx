@@ -99,8 +99,10 @@ const buildFields = (fieldsArray: any[], formState: any) => fieldsArray
 
         let type = field?.enumValues ? "select" : field?.type;
 
-        if (field?.columnType.includes("PgDateString")) type = "date";
-        if (field?.columnType.includes("PgTime")) type = "time";
+        if (field?.columnType) {
+            if (field.columnType.includes("PgDateString")) type = "date";
+            if (field.columnType.includes("PgTime")) type = "time";
+        };
 
         //@ts-ignore
         return ({
